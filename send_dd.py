@@ -16,7 +16,7 @@ def send_dd():
 		msg=sys.argv[1]
 		msg_template['text']['content']=msg
 		r = requests.post(DD_URL,json.dumps(msg_template),headers=headers)
-		print r.text
+		#print r.text
 	else:
 		exit()
 
