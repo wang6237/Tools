@@ -62,19 +62,15 @@ class updateService(object):
     def __init__(self):
         pass
     def update(self,imageUuid, project_id, service_id):
-        """接收，service upgraded的url、imageUuid、environment、service state，
-        根据url获取到，service的url，=> service state =>
+        """接收，imageUuid、project_id、service_id，
+        通过project_id和service_id 拼接好action url
         """
         action_url = rancher_server_url + '/' +project_id + '/services/' + service_id + '/?action'
         upgrade_strategy = json.loads(
             '{"inServiceStrategy": {"batchSize": 1,"intervalMillis": 10000,"startFirst": true,"launchConfig": {},"secondaryLaunchConfigs": []}}')
-
-        # action_list = action_url.split('/')
-
-        # project_id = action_list[5]
-        # service_id = action_list[7]
         r = RancherAPI()
         service_info = r.query_service(project_id, service_id)
+        # 判断service的状态是否是upgraded, 如果是upgraded, 就执行finishupgrade
         if service_info['state'] == "upgraded":
             post_data = {
                 "rollingRestartStrategy": {
@@ -103,10 +99,10 @@ class updateService(object):
             sleep_count += 1
 
         if service_info['state'] == 'upgraded':
-            # 升级成功，返回1
+            # 升级成功
             return json.dumps({'msg': "Update Service Succeed"})
         else:
-            # 失败返回0
+            # 升级失败
             return json.dumps({'msg': "Update Service Failure"})
 
 
