@@ -158,3 +158,46 @@ class rabbitmqManagement(object):
         '''
         url = self.baseUrl + '/api/vhosts/' + name
         return self._get(url)
+
+    def getQueues(self):
+        '''
+        url: /api/queues
+        desc: A list of all queues.
+        '''
+        url = self.baseUrl + '/api/queues'
+        return self._get(url)
+    
+    def getQueues_vhost(self, vhost):
+        '''
+        url: /api/queues/vhost
+        desc: A list of all queues in a given virtual host.
+        '''
+        url = self.baseUrl + '/api/queues/' + vhost
+        return self._get(url)
+    
+    def getQueues_vhost_name(self, vhost, name):
+        '''
+        url: /api/queues/vhost/name
+        desc: An individual queue. To PUT a queue, you will need a body looking something like this:
+            {"auto_delete":false,"durable":true,"arguments":{},"node":"rabbit@smacmullen"}
+            All keys are optional.
+        '''
+        url = self.baseUrl + '/api/queues/' + vhost + '/' + name
+        return self._get(url)
+    
+    def getUsers(self):
+        '''
+        url: /api/users
+        desc: 	A list of all users.
+        '''
+        url = self.baseUrl + '/api/users'
+        return self._get(url)
+    
+    def getUsersName(self, name):
+        '''
+        url: /api/users/name
+        desc: 	A list of all users.
+        '''
+        url = self.baseUrl + '/api/users/' + name
+        return self._get(url)
+
